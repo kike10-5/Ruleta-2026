@@ -196,22 +196,20 @@
                 ctx.fill();
                 
                 ctx.save();
+                
+                // Letra siempre crema para todos los gajos
                 ctx.fillStyle = "#fdfaf0";
+                
                 ctx.translate(400, 400);
                 ctx.rotate(angle + arc / 2);
                 
-                // --- EFECTO: DE BORDE A CENTRO ---
-                // Movemos el cursor casi al borde (385px)
                 ctx.translate(385, 0); 
-                // Rotamos 180 grados para que la base de las letras mire al borde
                 ctx.rotate(Math.PI); 
                 
-                // Reducimos un pelín la fuente para que quepa "Marta, Sebas, Guille..."
-                ctx.font = 'italic 16px "IM Fell DW Pica"';
+                // Tamaño de letra 26px
+                ctx.font = 'italic 26px "IM Fell DW Pica"';
                 ctx.textAlign = "left"; 
-                // Al estar rotado 180 grados y alineado a la izquierda, 
-                // la primera palabra queda pegada al borde exterior.
-                ctx.fillText(songs[i], 0, 5); 
+                ctx.fillText(songs[i], 0, 8); 
                 
                 ctx.restore();
             }
