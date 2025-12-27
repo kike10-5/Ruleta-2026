@@ -147,9 +147,9 @@
 
     <script>
         const songs = [
-            "Hello Goodbye", "Bienvenido al show", "Tramuntana", "Money is everything", 
+            "Hello Goodbye", "Bienvenidos al show", "Tramuntana", "Money is everything", 
             "You're on your own, kid", "hope ur ok", "Let it be", "Yesterday", 
-            "Tengo un pensamiento", "Marta, Sebas...", "Tengo el poder", "Keep Driving", 
+            "Tengo un pensamiento", "Marta, Sebas, Guille y los demás", "Tengo el poder", "Keep Driving", 
             "CHIHIRO", "Friday I'm in love", "We pray", "The door", 
             "Bring me to life", "End of an era"
         ];
@@ -198,18 +198,20 @@
                 ctx.save();
                 ctx.fillStyle = "#fdfaf0";
                 ctx.translate(400, 400);
-                
-                // Rotamos al centro de la porción
                 ctx.rotate(angle + arc / 2);
                 
-                // EL GIRO DE 180 GRADOS:
-                // Movemos el contexto al borde y rotamos 180 grados (Math.PI)
-                ctx.translate(380, 0); 
+                // --- EFECTO: DE BORDE A CENTRO ---
+                // Movemos el cursor casi al borde (385px)
+                ctx.translate(385, 0); 
+                // Rotamos 180 grados para que la base de las letras mire al borde
                 ctx.rotate(Math.PI); 
-
-                ctx.font = 'italic 18px "IM Fell DW Pica"';
-                ctx.textAlign = "left"; // Ahora es Left porque hemos dado la vuelta al eje
-                ctx.fillText(songs[i], 0, 7); 
+                
+                // Reducimos un pelín la fuente para que quepa "Marta, Sebas, Guille..."
+                ctx.font = 'italic 16px "IM Fell DW Pica"';
+                ctx.textAlign = "left"; 
+                // Al estar rotado 180 grados y alineado a la izquierda, 
+                // la primera palabra queda pegada al borde exterior.
+                ctx.fillText(songs[i], 0, 5); 
                 
                 ctx.restore();
             }
