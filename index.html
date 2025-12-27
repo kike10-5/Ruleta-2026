@@ -175,10 +175,10 @@
             "ACEPTARÁS QUE ALGO HA MUERTO PARA QUE ALGO NUEVO TENGA ESPACIO PARA NACER. RENOVACIÓN TOTAL."
         ];
 
-        const musicFiles = ["hello.mp3", "bienvenidos.mp3", "tramuntana.mp3", "money.mp3", "you.mp3", "hope_ur_ok.mp3", "let.mp3", "yesterday.mp3", "tengo.mp3", "amaral.mp3", "poder.mp3", "keep.mp3", "chihiro.mp3", "friday.mp3", "we.mp3", "the.mp3", "bring.mp3", "end.mp3"];
+        const musicFiles = ["hello.mp3", "bienvenidos.mp3", "tramuntana.mp3", "money.mp3", "you.mp3", "hope_ur_ok.mp3", "let.mp3", "yesterday.mp3", "tengo.mp3", "marta.mp3", "poder.mp3", "keep.mp3", "chihiro.mp3", "friday.mp3", "we.mp3", "the.mp3", "bring.mp3", "end.mp3"];
 
         const palette = ["#087f8c", "#5aaa95", "#86a873", "#bb9f06"];
-        let startAngle = 0;
+        let startAngle = Math.random() * Math.PI * 2; // Posición inicial aleatoria al cargar
         let arc = Math.PI / (songs.length / 2);
         let spinning = false;
         let audioContext;
@@ -196,21 +196,14 @@
                 ctx.fill();
                 
                 ctx.save();
-                
-                // Letra siempre crema para todos los gajos
                 ctx.fillStyle = "#fdfaf0";
-                
                 ctx.translate(400, 400);
                 ctx.rotate(angle + arc / 2);
-                
                 ctx.translate(385, 0); 
                 ctx.rotate(Math.PI); 
-                
-                // Tamaño de letra 26px
                 ctx.font = 'italic 26px "IM Fell DW Pica"';
                 ctx.textAlign = "left"; 
                 ctx.fillText(songs[i], 0, 8); 
-                
                 ctx.restore();
             }
         }
@@ -219,9 +212,11 @@
             if (spinning) return;
             if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
             spinning = true;
-            let spinTimeTotal = 5000;
+            
+            let spinTimeTotal = 5000 + (Math.random() * 2000); // Tiempo de giro aleatorio entre 5 y 7 seg
             let currentSpinTime = 0;
-            let spinAngleStart = Math.random() * 10 + 25;
+            // Velocidad inicial mucho más aleatoria y mayor
+            let spinAngleStart = (Math.random() * 30) + 40; 
 
             function rotate() {
                 currentSpinTime += 20;
@@ -230,7 +225,7 @@
                     return;
                 }
                 let ratio = currentSpinTime / spinTimeTotal;
-                let easeOut = 1 - Math.pow(1 - ratio, 3); 
+                let easeOut = 1 - Math.pow(1 - ratio, 4); // Curva de frenado más suave
                 let spinAngle = spinAngleStart * (1 - easeOut);
                 startAngle += (spinAngle * Math.PI / 180);
                 drawWheel();
