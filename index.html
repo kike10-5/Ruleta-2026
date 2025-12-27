@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¿CÓMO IRÁ TU 2026?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=IM+Fell+DW+Pica:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fondo: #095256; 
+            --crema: #fdfaf0;
+        }
+
+        body { 
+            background-color: var(--fondo); 
+            color: var(--crema); 
+            font-family: 'Cormorant Garamond', serif; 
+            margin: 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        #main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 { 
+            font-weight: 300;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            padding: 0 10px;
+        }
+
+        /* Ajuste para que la ruleta sea responsive */
+        #canvasContainer { 
+            position: relative; 
+            width: 85vw; /* Ocupa el 85% del ancho de la pantalla */
+            height: 85vw; 
+            max-width: 450px; /* Tamaño máximo en PC */
+            max-height: 450px;
+            cursor: pointer;
+            border: 1px solid var(--crema);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(0,0,0,0.3);
+        }
+
+        canvas { width: 100%; height: 100%; display: block; border-radius: 50%; }
+
+        #arrow { 
+            position: absolute; 
+            top: -15px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 0; height: 0; 
+            border-left: 10px solid transparent; 
+            border-right: 10px solid transparent; 
+            border-top: 25px solid var(--crema); 
+            z-index: 10; 
+        }
+
+        #spin { 
+            background: transparent; 
+            color: var(--crema); 
+            border: 1px solid var(--crema); 
+            padding: 12px 35px; 
+            font-size: 14px; 
+            margin-top: 30px;
+            cursor: pointer; 
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 300;
+        }
+
+        #result-screen { 
+            display: none; 
+            position: fixed; 
+            inset: 0;
+            background: var(--fondo); 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            z-index: 100;
+            padding: 30px;
+        }
+
+        #songName { 
+            font-family: 'IM Fell DW Pica', serif; 
+            font-size: 2.5rem; /* Un poco más pequeño para móviles */
+            font-style: italic; 
+            font-weight: 400;
+            margin: 15px 0;
+            text-transform: none; 
+        }
+        
+        #predictionText { 
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 1.1rem; 
+            margin-top: 20px; 
+            max-width: 90%; 
+            line-height: 1.4; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .reset-btn {
+            margin-top: 40px;
+            background: none;
+            color: var(--crema);
+            border: 1px solid var(--crema);
+            padding: 10px 25px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-container">
+        <h1>¿CÓMO IRÁ TU 2026?</h1>
+        <div id="canvasContainer" onclick="spinWheel()">
+            <div id="arrow"></div>
+            <canvas id="canvas" width="800" height="800"></canvas>
+        </div>
+        <button id="spin" onclick="spinWheel()">DESCÚBRELO</button>
+    </div>
+
+    <div id="result-screen">
+        <div style="font-size: 10px; letter-spacing: 6px; margin-bottom: 10px; opacity: 0.6; font-weight: 300;">EL MANUSCRITO</div>
+        <h2 id="songName"></h2>
+        <div id="predictionText"></div>
+        <button class="reset-btn" onclick="location.reload()">VOLVER A INTENTAR</button>
+    </div>
+
+    <script>
+        // CANCIONES ACTUALIZADAS
+        const songs = ["Hello Goodbye", "Bienvenido al show", "Tramuntana", "Money is everything", "YOYOK", "hope ur ok", "Let it be", "Yesterday", "Tengo un pensamiento", "Marta, Sebas...", "Tengo el poder", "Keep Driving", "CHIHIRO", "Friday I'm in love", "We pray", "The door", "Bring me to life", "End of an era"];
+
+        // PREDICCIONES ACTUALIZADAS (CON LOS NUEVOS SIGNIFICADOS)
+        const predictions = [
+            "EL 2026 TE OBLIGARÁ A CERRAR UNA PUERTA PARA ABRIR OTRA. DI ADIÓS SIN MIEDO; CADA FINAL ES SOLO UN NUEVO SALUDO.",
+            "SENTIRÁS EL MIEDO Y EL CAOS DE EXPONERTE AL MUNDO, PERO APRENDERÁS QUE TU FRAGILIDAD ES PARTE DEL ESPECTÁCULO.",
+            "TE ATREVERÁS A BUSCAR UNA VIDA FUERA DE LO COMÚN. SERÁ TU MOMENTO DE ARRIESGARLO TODO Y RENDIRTE A LO QUE TE PIDE EL CUERPO.",
+            "EL DINERO NO TE FALTARÁ EN 2026, PERO CUIDADO: NO DEJES QUE LA AMBICIÓN TE VUELVA AGARRADO O ENGURRUÑIDO.",
+            "ESTARÁS SOLO EN ESTA ETAPA, PERO DESCUBRIRÁS QUE SIEMPRE HAS SIDO TU MEJOR ALIADO.",
+            "MIRARÁS HACIA ATRÁS SIN RENCOR, DESEANDO SUERTE A QUIENES YA NO ESTÁN EN TU VIDA.",
+            "HAY COSAS QUE NO TIENEN SOLUCIÓN; EL 2026 SERÁ EL AÑO DE ACEPTAR EL DESTINO Y DEJARLO SER.",
+            "LA NOSTALGIA TE VISITARÁ A MENUDO. NO HUYAS DE ELLA, ÚSALA PARA ENTENDERTE.",
+            "TU CABEZA SERÁ UN LABERINTO DE IDEAS. APRENDE A VIVIR CON ESE RUIDO SIN QUE TE NUBLE LA VISTA.",
+            "TE DARÁS CUENTA DE QUE LO ÚNICO QUE IMPORTA ES CON QUIÉN COMPARTES EL CAMINO. EL 2026 TE UNIRÁ MÁS A TUS AMIGOS REALES.",
+            "SENTIRÁS UN IMPULSO DE REBELDÍA. POR FIN TOMARÁS LAS RIENDAS DE TU PROPIO CAOS.",
+            "EL MUNDO SE VOLVERÁ LOCO A TU ALREDEDOR, PERO TÚ SEGUIRÁS CONDUCIENDO HACIA TU PROPIA PAZ.",
+            "TE SENTIRÁS PERDIDO EN UN LUGAR EXTRAÑO HASTA QUE RECONOZCAS TU PROPIO NOMBRE Y TU ESENCIA.",
+            "APRENDERÁS A MANDAR EL CAOS A PASEO. SERÁ EL AÑO DE ENCONTRAR TU MOMENTO DE BRILLO CUANDO TODO PARECÍA PERDIDO.",
+            "EN LOS MOMENTOS DE OSCURIDAD, BUSCARÁS UNA CONEXIÓN QUE TE DÉ LAS RESPUESTAS QUE NECESITAS.",
+            "DEJARÁS DE ROGAR. EN 2026, SIMPLEMENTE LE ENSEÑARÁS LA PUERTA A LO QUE YA NO TIENE SITIO EN TU VIDA.",
+            "SALDRÁS DE TU LETARGO. UNA SACUDIDA EMOCIONAL TE HARÁ SENTIRTE VIVO Y DESPIERTO DE NUEVO.",
+            "ACEPTARÁS QUE ALGO HA MUERTO PARA QUE ALGO NUEVO TENGA ESPACIO PARA NACER. RENOVACIÓN TOTAL."
+        ];
+
+        const musicFiles = ["hello.mp3", "bienvenidos.mp3", "tramuntana.mp3", "money.mp3", "you.mp3", "hope_ur_ok.mp3", "let.mp3", "yesterday.mp3", "tengo.mp3", "amaral.mp3", "poder.mp3", "keep.mp3", "chihiro.mp3", "friday.mp3", "we.mp3", "the.mp3", "bring.mp3", "end.mp3"];
+
+        const palette = ["#087f8c", "#5aaa95", "#86a873", "#bb9f06"];
+        let startAngle = 0;
+        let arc = Math.PI / (songs.length / 2);
+        let spinning = false;
+        let audioContext; // Para desbloquear audio en móviles
+
+        function drawWheel() {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0,0,800,800);
+            for(let i=0; i<songs.length; i++) {
+                let angle = startAngle + i * arc;
+                ctx.fillStyle = palette[i % palette.length];
+                ctx.beginPath();
+                ctx.arc(400, 400, 400, angle, angle + arc, false);
+                ctx.lineTo(400, 400);
+                ctx.fill();
+                ctx.save();
+                ctx.fillStyle = "#fdfaf0";
+                ctx.translate(400, 400);
+                ctx.rotate(angle + arc / 2);
+                ctx.font = 'italic 20px "IM Fell DW Pica"'; // Un poco más pequeña para que quepa bien
+                ctx.textAlign = "right";
+                ctx.fillText(songs[i], 380, 10);
+                ctx.restore();
+            }
+        }
+
+        function spinWheel() {
+            if (spinning) return;
+            
+            // DESBLOQUEO DE AUDIO (Crucial para móviles)
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            spinning = true;
+            let spinTimeTotal = 5000;
+            let currentSpinTime = 0;
+            let spinAngleStart = Math.random() * 10 + 25;
+
+            function rotate() {
+                currentSpinTime += 20;
+                if(currentSpinTime >= spinTimeTotal) {
+                    stopRotate();
+                    return;
+                }
+                let ratio = currentSpinTime / spinTimeTotal;
+                let easeOut = 1 - Math.pow(1 - ratio, 3); 
+                let spinAngle = spinAngleStart * (1 - easeOut);
+                startAngle += (spinAngle * Math.PI / 180);
+                drawWheel();
+                setTimeout(rotate, 20);
+            }
+            rotate();
+        }
+
+        function stopRotate() {
+            spinning = false;
+            let degrees = startAngle * 180 / Math.PI + 90;
+            let arcd = arc * 180 / Math.PI;
+            let index = Math.floor((360 - degrees % 360) / arcd);
+            if (index < 0) index = songs.length + index;
+            let finalIndex = index % songs.length;
+
+            // REPRODUCIR AUDIO
+            let audio = new Audio(musicFiles[finalIndex]);
+            audio.play().catch(e => console.log("Interacción necesaria"));
+
+            setTimeout(() => {
+                document.getElementById("main-container").style.display = "none";
+                const songDisplay = document.getElementById("songName");
+                songDisplay.innerText = songs[finalIndex];
+                songDisplay.style.color = palette[finalIndex % palette.length];
+                document.getElementById("predictionText").innerText = predictions[finalIndex];
+                document.getElementById("result-screen").style.display = "flex";
+            }, 500);
+        }
+
+        window.onload = drawWheel;
+    </script>
+</body>
+</html>
