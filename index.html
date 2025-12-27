@@ -198,12 +198,18 @@
                 ctx.save();
                 ctx.fillStyle = "#fdfaf0";
                 ctx.translate(400, 400);
+                
+                // Rotamos al centro de la porción
                 ctx.rotate(angle + arc / 2);
                 
-                // AJUSTE: Pegado al borde (derecha) y escrito hacia el centro
+                // EL GIRO DE 180 GRADOS:
+                // Movemos el contexto al borde y rotamos 180 grados (Math.PI)
+                ctx.translate(380, 0); 
+                ctx.rotate(Math.PI); 
+
                 ctx.font = 'italic 18px "IM Fell DW Pica"';
-                ctx.textAlign = "right"; 
-                ctx.fillText(songs[i], 385, 6); 
+                ctx.textAlign = "left"; // Ahora es Left porque hemos dado la vuelta al eje
+                ctx.fillText(songs[i], 0, 7); 
                 
                 ctx.restore();
             }
@@ -242,7 +248,7 @@
             let finalIndex = index % songs.length;
 
             let audio = new Audio(musicFiles[finalIndex]);
-            audio.play().catch(e => console.log("Audio no encontrado o bloqueado"));
+            audio.play().catch(e => console.log("Audio no encontrado"));
 
             setTimeout(() => {
                 document.getElementById("main-container").style.display = "none";
