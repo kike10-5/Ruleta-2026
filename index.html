@@ -40,12 +40,11 @@
             padding: 0 10px;
         }
 
-        /* Ajuste para que la ruleta sea responsive */
         #canvasContainer { 
             position: relative; 
-            width: 85vw; /* Ocupa el 85% del ancho de la pantalla */
+            width: 85vw; 
             height: 85vw; 
-            max-width: 450px; /* Tamaño máximo en PC */
+            max-width: 450px; 
             max-height: 450px;
             cursor: pointer;
             border: 1px solid var(--crema);
@@ -96,7 +95,7 @@
 
         #songName { 
             font-family: 'IM Fell DW Pica', serif; 
-            font-size: 2.5rem; /* Un poco más pequeño para móviles */
+            font-size: 2.5rem; 
             font-style: italic; 
             font-weight: 400;
             margin: 15px 0;
@@ -147,10 +146,8 @@
     </div>
 
     <script>
-        // CANCIONES ACTUALIZADAS
-        const songs = ["Hello Goodbye", "Bienvenido al show", "Tramuntana", "Money is everything", "YOYOK", "hope ur ok", "Let it be", "Yesterday", "Tengo un pensamiento", "Marta, Sebas...", "Tengo el poder", "Keep Driving", "CHIHIRO", "Friday I'm in love", "We pray", "The door", "Bring me to life", "End of an era"];
+        const songs = ["Hello Goodbye", "Bienvenido al show", "Tramuntana", "Money is everything", "You're on your own, kid", "hope ur ok", "Let it be", "Yesterday", "Tengo un pensamiento", "Marta, Sebas...", "Tengo el poder", "Keep Driving", "CHIHIRO", "Friday I'm in love", "We pray", "The door", "Bring me to life", "End of an era"];
 
-        // PREDICCIONES ACTUALIZADAS (CON LOS NUEVOS SIGNIFICADOS)
         const predictions = [
             "EL 2026 TE OBLIGARÁ A CERRAR UNA PUERTA PARA ABRIR OTRA. DI ADIÓS SIN MIEDO; CADA FINAL ES SOLO UN NUEVO SALUDO.",
             "SENTIRÁS EL MIEDO Y EL CAOS DE EXPONERTE AL MUNDO, PERO APRENDERÁS QUE TU FRAGILIDAD ES PARTE DEL ESPECTÁCULO.",
@@ -160,7 +157,7 @@
             "MIRARÁS HACIA ATRÁS SIN RENCOR, DESEANDO SUERTE A QUIENES YA NO ESTÁN EN TU VIDA.",
             "HAY COSAS QUE NO TIENEN SOLUCIÓN; EL 2026 SERÁ EL AÑO DE ACEPTAR EL DESTINO Y DEJARLO SER.",
             "LA NOSTALGIA TE VISITARÁ A MENUDO. NO HUYAS DE ELLA, ÚSALA PARA ENTENDERTE.",
-            "TU CABEZA SERÁ UN LABERINTO DE IDEAS. APRENDE A VIVIR CON ESE RUIDO SIN QUE TE NUBLE LA VISTA.",
+            "TU CABEZA SERÁ UN LABERINTO DE IDEAS. APRENDERÁS A CONVIVIR CON ESE RUIDO SIN QUE TE NUBLE LA VISTA.",
             "TE DARÁS CUENTA DE QUE LO ÚNICO QUE IMPORTA ES CON QUIÉN COMPARTES EL CAMINO. EL 2026 TE UNIRÁ MÁS A TUS AMIGOS REALES.",
             "SENTIRÁS UN IMPULSO DE REBELDÍA. POR FIN TOMARÁS LAS RIENDAS DE TU PROPIO CAOS.",
             "EL MUNDO SE VOLVERÁ LOCO A TU ALREDEDOR, PERO TÚ SEGUIRÁS CONDUCIENDO HACIA TU PROPIA PAZ.",
@@ -178,7 +175,7 @@
         let startAngle = 0;
         let arc = Math.PI / (songs.length / 2);
         let spinning = false;
-        let audioContext; // Para desbloquear audio en móviles
+        let audioContext;
 
         function drawWheel() {
             const canvas = document.getElementById("canvas");
@@ -191,25 +188,22 @@
                 ctx.arc(400, 400, 400, angle, angle + arc, false);
                 ctx.lineTo(400, 400);
                 ctx.fill();
+                
+                // Texto hacia afuera
                 ctx.save();
                 ctx.fillStyle = "#fdfaf0";
                 ctx.translate(400, 400);
                 ctx.rotate(angle + arc / 2);
-                ctx.font = 'italic 20px "IM Fell DW Pica"'; // Un poco más pequeña para que quepa bien
-                ctx.textAlign = "right";
-                ctx.fillText(songs[i], 380, 10);
+                ctx.font = 'italic 22px "IM Fell DW Pica"';
+                ctx.textAlign = "left"; 
+                ctx.fillText(songs[i], 120, 8); // Ajustado para que el texto empiece desde el centro hacia afuera
                 ctx.restore();
             }
         }
 
         function spinWheel() {
             if (spinning) return;
-            
-            // DESBLOQUEO DE AUDIO (Crucial para móviles)
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-
+            if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
             spinning = true;
             let spinTimeTotal = 5000;
             let currentSpinTime = 0;
@@ -239,7 +233,6 @@
             if (index < 0) index = songs.length + index;
             let finalIndex = index % songs.length;
 
-            // REPRODUCIR AUDIO
             let audio = new Audio(musicFiles[finalIndex]);
             audio.play().catch(e => console.log("Interacción necesaria"));
 
