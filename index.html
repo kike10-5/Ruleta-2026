@@ -189,16 +189,21 @@
                 ctx.lineTo(400, 400);
                 ctx.fill();
                 
-                // Texto hacia afuera
                 ctx.save();
                 ctx.fillStyle = "#fdfaf0";
                 ctx.translate(400, 400);
                 ctx.rotate(angle + arc / 2);
-                ctx.font = 'italic 22px "IM Fell DW Pica"';
-                ctx.textAlign = "left"; 
-                ctx.fillText(songs[i], 120, 8); // Ajustado para que el texto empiece desde el centro hacia afuera
+                
+                // --- AJUSTE PARA PEGAR AL BORDE ---
+                ctx.font = 'italic 20px "IM Fell DW Pica"';
+                ctx.textAlign = "right"; // Alinea el final del texto a la derecha (el borde)
+                
+                // El número 380 sitúa el final de la frase a 20px del borde del círculo (que mide 400)
+                ctx.fillText(songs[i], 380, 8); 
+                
                 ctx.restore();
             }
+        }
         }
 
         function spinWheel() {
@@ -250,3 +255,4 @@
     </script>
 </body>
 </html>
+
