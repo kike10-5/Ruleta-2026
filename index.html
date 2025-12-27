@@ -146,7 +146,13 @@
     </div>
 
     <script>
-        const songs = ["Hello Goodbye", "Bienvenido al show", "Tramuntana", "Money is everything", "You're on your own, kid", "hope ur ok", "Let it be", "Yesterday", "Tengo un pensamiento", "Marta, Sebas...", "Tengo el poder", "Keep Driving", "CHIHIRO", "Friday I'm in love", "We pray", "The door", "Bring me to life", "End of an era"];
+        const songs = [
+            "Hello Goodbye", "Bienvenido al show", "Tramuntana", "Money is everything", 
+            "You're on your own, kid", "hope ur ok", "Let it be", "Yesterday", 
+            "Tengo un pensamiento", "Marta, Sebas...", "Tengo el poder", "Keep Driving", 
+            "CHIHIRO", "Friday I'm in love", "We pray", "The door", 
+            "Bring me to life", "End of an era"
+        ];
 
         const predictions = [
             "EL 2026 TE OBLIGARÁ A CERRAR UNA PUERTA PARA ABRIR OTRA. DI ADIÓS SIN MIEDO; CADA FINAL ES SOLO UN NUEVO SALUDO.",
@@ -160,7 +166,7 @@
             "TU CABEZA SERÁ UN LABERINTO DE IDEAS. APRENDERÁS A CONVIVIR CON ESE RUIDO SIN QUE TE NUBLE LA VISTA.",
             "TE DARÁS CUENTA DE QUE LO ÚNICO QUE IMPORTA ES CON QUIÉN COMPARTES EL CAMINO. EL 2026 TE UNIRÁ MÁS A TUS AMIGOS REALES.",
             "SENTIRÁS UN IMPULSO DE REBELDÍA. POR FIN TOMARÁS LAS RIENDAS DE TU PROPIO CAOS.",
-            "EL MUNDO SE VOLVERÁ LOCO A TU ALREDEDOR, PERO TÚ SEGUIRÁS CONDUCIENDO HACIA TU PROPIA PAZ.",
+            "EL MUNDO SE VOLVERÁ LOCO A TU ALREDEDOR, PERO TÚ SEGUIRÁS CONDUCIENDO HACIA TU PAZ.",
             "TE SENTIRÁS PERDIDO EN UN LUGAR EXTRAÑO HASTA QUE RECONOZCAS TU PROPIO NOMBRE Y TU ESENCIA.",
             "APRENDERÁS A MANDAR EL CAOS A PASEO. SERÁ EL AÑO DE ENCONTRAR TU MOMENTO DE BRILLO CUANDO TODO PARECÍA PERDIDO.",
             "EN LOS MOMENTOS DE OSCURIDAD, BUSCARÁS UNA CONEXIÓN QUE TE DÉ LAS RESPUESTAS QUE NECESITAS.",
@@ -194,16 +200,13 @@
                 ctx.translate(400, 400);
                 ctx.rotate(angle + arc / 2);
                 
-                // --- AJUSTE PARA PEGAR AL BORDE ---
-                ctx.font = 'italic 20px "IM Fell DW Pica"';
-                ctx.textAlign = "right"; // Alinea el final del texto a la derecha (el borde)
-                
-                // El número 380 sitúa el final de la frase a 20px del borde del círculo (que mide 400)
-                ctx.fillText(songs[i], 380, 8); 
+                // AJUSTE: Pegado al borde (derecha) y escrito hacia el centro
+                ctx.font = 'italic 18px "IM Fell DW Pica"';
+                ctx.textAlign = "right"; 
+                ctx.fillText(songs[i], 385, 6); 
                 
                 ctx.restore();
             }
-        }
         }
 
         function spinWheel() {
@@ -239,7 +242,7 @@
             let finalIndex = index % songs.length;
 
             let audio = new Audio(musicFiles[finalIndex]);
-            audio.play().catch(e => console.log("Interacción necesaria"));
+            audio.play().catch(e => console.log("Audio no encontrado o bloqueado"));
 
             setTimeout(() => {
                 document.getElementById("main-container").style.display = "none";
@@ -255,4 +258,3 @@
     </script>
 </body>
 </html>
-
